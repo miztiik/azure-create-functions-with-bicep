@@ -226,6 +226,14 @@ Azure Functions HTTP trigger - https://learn.microsoft.com/en-us/azure/azure-fun
 
 
 Function Binding Example - https://learn.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings?tabs=python
+
+
+
+
+# https://unix.stackexchange.com/questions/182032/zip-the-contents-of-a-folder-without-including-the-folder-itself
+pushd app/hello_world; zip -r ../app.zip *; popd
+
+
 ### 🏷️ Metadata
 
 ![miztiik-success-green](https://img.shields.io/badge/Miztiik:Automation:Level-100-green)
