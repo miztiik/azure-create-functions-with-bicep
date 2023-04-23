@@ -132,11 +132,27 @@ resource r_fnApp 'Microsoft.Web/sites@2021-03-01' = {
   }
 }
 
+
+// resource functionAppSettings 'Microsoft.Web/sites/config@2021-03-01' = {
+//   parent: r_fnApp
+//   name: 'appsettings'
+//   properties: {
+//     AzureWebJobsStorage: 'DefaultEndpointsProtocol=https;AccountName=${saName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${r_sa.listKeys().keys[0].value}'
+//     WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: 'DefaultEndpointsProtocol=https;AccountName=${saName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${r_sa.listKeys().keys[0].value}'
+//     WEBSITE_CONTENTSHARE: toLower(funcParams.funcNamePrefix)
+//     FUNCTIONS_EXTENSION_VERSION: '~4'
+//     APPINSIGHTS_INSTRUMENTATIONKEY: applicationInsights.properties.InstrumentationKey
+//     FUNCTIONS_WORKER_RUNTIME: 'python'
+//     WEBSITE_ADD_SITENAME_BINDINGS_IN_APPHOST_CONFIG: 1
+//     DatabaseConnectionString: ''
+//   }
+// }
+
 resource zipDeploy 'Microsoft.Web/sites/extensions@2021-02-01' = {
-  parent: functionApp
+  parent: r_fnApp
   name: 'MSDeploy'
   properties: {
-    packageUri: packageUri
+    packageUri: 'https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app/app.zip'
   }
 }
 

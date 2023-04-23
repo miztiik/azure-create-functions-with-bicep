@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.16.2.56959",
-      "templateHash": "15368364679161602767"
+      "templateHash": "18170649341022325597"
     }
   },
   "parameters": {
@@ -1185,7 +1185,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.16.2.56959",
-              "templateHash": "12156989294766154982"
+              "templateHash": "10675580843128536077"
             }
           },
           "parameters": {
@@ -1254,6 +1254,10 @@
                       "value": "python"
                     },
                     {
+                      "name": "FUNCTIONS_EXTENSION_VERSION",
+                      "value": "~4"
+                    },
+                    {
                       "name": "WEBSITE_CONTENTSHARE",
                       "value": "[toLower(parameters('funcParams').funcNamePrefix)]"
                     }
@@ -1262,6 +1266,17 @@
               },
               "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', format('{0}-fnPlan-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Web/sites/extensions",
+              "apiVersion": "2021-02-01",
+              "name": "[format('{0}/{1}', format('{0}-fnApp-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness), 'MSDeploy')]",
+              "properties": {
+                "packageUri": "https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app/app.zip"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', format('{0}-fnApp-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness))]"
               ]
             },
             {
