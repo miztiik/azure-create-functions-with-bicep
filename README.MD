@@ -231,7 +231,7 @@ Function Binding Example - https://learn.microsoft.com/en-us/azure/azure-functio
 
 
 # https://unix.stackexchange.com/questions/182032/zip-the-contents-of-a-folder-without-including-the-folder-itself
-pushd app/hello_world; zip -r ../app.zip *; popd
+pushd app/function_code/hello_world; zip -r ../../app1.zip *; popd
 
 
 ### 🏷️ Metadata
