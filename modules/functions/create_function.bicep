@@ -44,7 +44,6 @@ resource r_fnHostingPlan 'Microsoft.Web/serverfarms@2022-03-01' = {
 resource r_fnApp 'Microsoft.Web/sites@2021-03-01' = {
   name:  '${funcParams.funcNamePrefix}-fnApp-${deploymentParams.global_uniqueness}'
   location: deploymentParams.location
-  // kind: 'functionapp'
   kind: 'functionapp,linux'  
   tags: tags
   identity: {
@@ -94,10 +93,6 @@ resource r_fnApp 'Microsoft.Web/sites@2021-03-01' = {
         //   name: 'WEBSITE_RUN_FROM_PACKAGE'
         //   value: 'https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app/app7.zip'
         // }
-        {
-          name: 'WEBSITE_RUN_FROM_PACKAGE'
-          value: '0'
-        }
         // {
         //   name: 'FUNCTION_APP_EDIT_MODE'
         //   value: 'readwrite'
@@ -173,14 +168,64 @@ resource r_fnApp 'Microsoft.Web/sites@2021-03-01' = {
 // }
 
 
+// resource r_sayHello1 'Microsoft.Web/sites/functions@2022-03-01' = {
+//   name: '${funcParams.funcNamePrefix}-fn-${deploymentParams.global_uniqueness}'
+//   parent: r_fnApp
+//   properties: {
+//     config: any()
+//     config_href: 'string'
+//     files: {}
+//     function_app_id: 'string'
+//     href: 'string'
+//     invoke_url_template: 'string'
+//     isDisabled: false
+//     language: 'python'
+//     script_href: 'string'
+//     script_root_path_href: 'string'
+//     secrets_file_href: 'string'
+//     test_data: 'string'
+//     test_data_href: 'string'
+//   }
+// }
 
-resource zipDeploy 'Microsoft.Web/sites/extensions@2022-03-01' = {
+resource r_sayHello 'Microsoft.Web/sites/functions@2022-03-01' = {
+  name:  '${funcParams.funcNamePrefix}-fn-${deploymentParams.global_uniqueness}'
   parent: r_fnApp
-  name:  any('ZipDeploy')
   properties: {
-    packageUri: 'https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app/app7.zip'
+    config: {
+      disabled: false
+      bindings: [
+        {
+          name: 'req'
+          type: 'httpTrigger'
+          direction: 'in'
+          authLevel: 'anonymous' // The function is configured to use anonymous authentication (i.e. no function key required), since the Azure Functions infrastructure will verify that the request has come through Front Door.
+          methods: [
+            'get'
+            'post'
+          ]
+        }
+        {
+          name: '$return'
+          type: 'http'
+          direction: 'out'
+        }
+      ]
+    }
+    files: {
+      '__init__.py': loadTextContent('../../app/function_code/hello_world/__init__.py')
+    }
   }
 }
+
+
+// resource zipDeploy 'Microsoft.Web/sites/extensions@2022-03-01' = {
+//   parent: r_fnApp
+//   name:  any('ZipDeploy')
+//   properties: {
+//     packageUri: 'https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app8.zip'
+//   }
+// }
 
 // Function App Binding
 resource r_fnAppBinding 'Microsoft.Web/sites/hostNameBindings@2022-03-01' = {

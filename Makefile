@@ -1,5 +1,5 @@
 .PHONY: test help clean
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := deploy
 
 # Global Variables
 CURRENT_PWD:=$(shell pwd)
@@ -12,8 +12,8 @@ help:
 deploy: ## Deploy ALL stack
 	sh deploy.sh
 
-destroy: ## Delete Stack without confirmation
-	az group delete --name dataGeneratorSwarm01
+destroy: ## Delete deployments without confirmation
+	sh destroy.sh shiva
 
 clean: ## Remove All virtualenvs
 	@rm -rf ${PWD}/${VENV_DIR} build dist *.egg-info .eggs .pytest_cache .coverage

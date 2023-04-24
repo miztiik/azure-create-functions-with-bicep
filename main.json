@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.16.2.56959",
-      "templateHash": "13267601674624020878"
+      "templateHash": "10084538781519106012"
     }
   },
   "parameters": {
@@ -1185,7 +1185,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.16.2.56959",
-              "templateHash": "13407689221566499669"
+              "templateHash": "5630187438138945442"
             }
           },
           "parameters": {
@@ -1202,6 +1202,9 @@
             "saName": {
               "type": "string"
             }
+          },
+          "variables": {
+            "$fxv#0": "import azure.functions as func\nimport logging\n\ndef main(req: func.HttpRequest) -> func.HttpResponse:\n    logging.info('Oye Python HTTP trigger function processed a request.')\n\n    name = req.params.get('name')\n    if not name:\n        try:\n            req_body = req.get_json()\n        except ValueError:\n            pass\n        else:\n            name = req_body.get('name')\n\n    if name:\n        return func.HttpResponse(f\"Hello, {name}. This HTTP triggered function executed successfully.\")\n    else:\n        return func.HttpResponse(\n             \"This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.\",\n             status_code=200\n        )\n\n\n"
           },
           "resources": [
             {
@@ -1266,10 +1269,6 @@
                       "value": "[resourceGroup().name]"
                     },
                     {
-                      "name": "WEBSITE_RUN_FROM_PACKAGE",
-                      "value": "https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app/app7.zip"
-                    },
-                    {
                       "name": "WEBSITE_CONTENTSHARE",
                       "value": "[toLower(parameters('funcParams').funcNamePrefix)]"
                     }
@@ -1278,6 +1277,39 @@
               },
               "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', format('{0}-fnPlan-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Web/sites/functions",
+              "apiVersion": "2022-03-01",
+              "name": "[format('{0}/{1}', format('{0}-fnApp-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness), format('{0}-fn-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness))]",
+              "properties": {
+                "config": {
+                  "disabled": false,
+                  "bindings": [
+                    {
+                      "name": "req",
+                      "type": "httpTrigger",
+                      "direction": "in",
+                      "authLevel": "anonymous",
+                      "methods": [
+                        "get",
+                        "post"
+                      ]
+                    },
+                    {
+                      "name": "$return",
+                      "type": "http",
+                      "direction": "out"
+                    }
+                  ]
+                },
+                "files": {
+                  "__init__.py": "[variables('$fxv#0')]"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', format('{0}-fnApp-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness))]"
               ]
             },
             {
