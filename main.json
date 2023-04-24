@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.16.2.56959",
-      "templateHash": "14133173970007746509"
+      "templateHash": "13267601674624020878"
     }
   },
   "parameters": {
@@ -1185,7 +1185,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.16.2.56959",
-              "templateHash": "10299489244482885281"
+              "templateHash": "13407689221566499669"
             }
           },
           "parameters": {
@@ -1258,6 +1258,18 @@
                       "value": "~4"
                     },
                     {
+                      "name": "SUBSCRIPTION_ID",
+                      "value": "[subscription().subscriptionId]"
+                    },
+                    {
+                      "name": "RESOURCE_GROUP",
+                      "value": "[resourceGroup().name]"
+                    },
+                    {
+                      "name": "WEBSITE_RUN_FROM_PACKAGE",
+                      "value": "https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app/app7.zip"
+                    },
+                    {
                       "name": "WEBSITE_CONTENTSHARE",
                       "value": "[toLower(parameters('funcParams').funcNamePrefix)]"
                     }
@@ -1266,17 +1278,6 @@
               },
               "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', format('{0}-fnPlan-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness))]"
-              ]
-            },
-            {
-              "type": "Microsoft.Web/sites/extensions",
-              "apiVersion": "2021-02-01",
-              "name": "[format('{0}/{1}', format('{0}-fnApp-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness), 'MSDeploy')]",
-              "properties": {
-                "packageUri": "https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app6.zip"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', format('{0}-fnApp-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness))]"
               ]
             },
             {
