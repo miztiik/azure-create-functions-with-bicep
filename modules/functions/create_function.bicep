@@ -82,6 +82,14 @@ resource r_fnApp 'Microsoft.Web/sites@2021-03-01' = {
           name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
         }
+        {
+          name: 'SUBSCRIPTION_ID'
+          value: subscription().subscriptionId
+        }
+        {
+          name: 'RESOURCE_GROUP'
+          value: resourceGroup().name
+        }
         // {
         //   name: 'FUNCTION_APP_EDIT_MODE'
         //   value: 'readwrite'
@@ -152,7 +160,7 @@ resource zipDeploy 'Microsoft.Web/sites/extensions@2021-02-01' = {
   parent: r_fnApp
   name: 'MSDeploy'
   properties: {
-    packageUri: 'https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app6.zip'
+    packageUri: 'https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app7.zip'
   }
 }
 

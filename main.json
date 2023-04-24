@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.16.2.56959",
-      "templateHash": "14255043805897997402"
+      "templateHash": "14133173970007746509"
     }
   },
   "parameters": {
@@ -1185,7 +1185,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.16.2.56959",
-              "templateHash": "13034645756642600656"
+              "templateHash": "10299489244482885281"
             }
           },
           "parameters": {
@@ -1273,7 +1273,7 @@
               "apiVersion": "2021-02-01",
               "name": "[format('{0}/{1}', format('{0}-fnApp-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness), 'MSDeploy')]",
               "properties": {
-                "packageUri": "https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app5.zip"
+                "packageUri": "https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app6.zip"
               },
               "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', format('{0}-fnApp-{1}', parameters('funcParams').funcNamePrefix, parameters('deploymentParams').global_uniqueness))]"
