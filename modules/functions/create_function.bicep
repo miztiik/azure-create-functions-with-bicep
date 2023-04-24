@@ -152,7 +152,7 @@ resource zipDeploy 'Microsoft.Web/sites/extensions@2021-02-01' = {
   parent: r_fnApp
   name: 'MSDeploy'
   properties: {
-    packageUri: 'https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app/app2.zip'
+    packageUri: 'https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app2.zip'
   }
 }
 
