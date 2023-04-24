@@ -96,7 +96,7 @@ resource r_fnApp 'Microsoft.Web/sites@2021-03-01' = {
         // }
         {
           name: 'WEBSITE_RUN_FROM_PACKAGE'
-          value: '1'
+          value: '0'
         }
         // {
         //   name: 'FUNCTION_APP_EDIT_MODE'
@@ -172,9 +172,11 @@ resource r_fnApp 'Microsoft.Web/sites@2021-03-01' = {
 //   }
 // }
 
+
+
 resource zipDeploy 'Microsoft.Web/sites/extensions@2022-03-01' = {
   parent: r_fnApp
-  name: 'zipdeploy'
+  name:  any('ZipDeploy')
   properties: {
     packageUri: 'https://github.com/miztiik/azure-create-functions-with-bicep/raw/main/app/app7.zip'
   }
