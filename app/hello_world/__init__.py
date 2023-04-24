@@ -5,7 +5,7 @@ app = func.FunctionApp()
 
 @app.function_name(name="HttpTrigger1")
 @app.route(route="hello", auth_level=func.AuthLevel.ANONYMOUS)
-def test_function(req: func.HttpRequest) -> func.HttpResponse:
+def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Miztiik Python HTTP trigger function processed a request.')
 
     name = req.params.get('name')
